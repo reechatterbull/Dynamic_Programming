@@ -1,21 +1,33 @@
-""" This is a program to find possible combinations of all elements that add up to a sum (Leetcode - 494) - using caching """
+""" THIS IS A CODE TO USE DYNAMIC PROGRAMMING TO FIND THE MINIMUM NUMBER OF STEPS TO REDUCE AN INTEGER N TO 1. 
+THE AVAILABLE STEPS ARE - 
+1. SUBTRACT BY 1
+2. DIVIDE BY 2
+3. DIVIDE BY 3"""
 
-class Dynamic_Sum:
-  def __init__(self,nums,target):
-    self.arr = nums
-    self.target = target
+class Min_Steps:
+  #def __init__(self):
+  def Minimizer(self,n: int) -> int:
+    dp={} #Creating a dynamic programming hash table
+    dp[0] = dp[1] = 0 #indices is the current number and value is the min number of steps to reduce the index to 1
+    if n == 1:
+      return dp[n]
 
-  def findTargetSumWays(self):
-    dp = {} #Creating a hash map to map the (index,total) so far --> no of ways
+    dp[n] = 1 + self.Minimizer(n-1)
+    if n%2 == 0:
+      dp[n] = min(dp[n],self.Minimizer(n/2)+1) 
+    if n%3 == 0:
+      dp[n] = min(dp[n],self.Minimizer(n/3)+1)
 
-    def backtrack(index,total):
-      if index == len(self.nums):
-        return 1 if total == self.target else 0
-      if (index,total) in dp: #Note that (index,total) is the key and the sum is the value
-        return dp[(index,total)]
+    return dp[n]
+    
+    
+Solution = Min_Steps()
+print(Solution.Minimizer(7))
+    
       
-      dp[(index,total)] = (backtrack(index+1,total+self.nums[index]) + 
-                           backtrack(index+1,total - self.nums[index])
+     
+    
+    
+    
+    
       
-
-  
